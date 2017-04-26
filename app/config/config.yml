@@ -11,7 +11,7 @@ parameters:
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
-    secret: '7e7dbda4071c9386967d7b1bb254b979f7ab56c5'
+    secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
         strict_requirements: ~
@@ -39,11 +39,11 @@ twig:
 doctrine:
     dbal:
         driver: pdo_mysql
-        host: 'localhost'
-        port: '3306'
-        dbname: 'xml_orders'
-        user: 'root'
-        password: ''
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
         charset: utf8mb4
         default_table_options:
             charset: utf8mb4
