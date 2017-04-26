@@ -33,12 +33,8 @@ class Order
     private $address;
 
     /**
-     * One Order have Many Items.
-     * @ORM\ManyToMany(targetEntity="Item")
-     * @ORM\JoinTable(name="orders_items",
-     *      joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="item_id", referencedColumnName="id", unique=true)}
-     *      )
+     * One Order has Many Items.
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="order")
      */
     private $items;
 
