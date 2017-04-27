@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\Container;
 use AppBundle\Repository\Contract\PersonRepository;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * @Route(service="app.api_person_controller")
@@ -24,6 +25,22 @@ class PersonController extends Controller
     }
 
     /**
+     * Response with all Person registered on the database
+     *
+     * @ApiDoc(
+     *  section="Person",
+     *  resource=true,
+     *  description="Retrieves a list of person",
+     *  output="AppBundle\Entity\Person",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         504="Returned when request is bad",
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *  }
+     * )
+     *
      * @Route("/api/people", name="api-person-index")
      * @Method("GET")
      */
@@ -33,7 +50,7 @@ class PersonController extends Controller
         $response->headers->set('Content-Type', 'text/javascript');
 
         $serializer = $this->container->get('jms_serializer');
-
+        $people = [];
         try {
             $criteria = $request->query->all();
             $people = count($criteria) ? $this->people->findBy($criteria) : $this->people->findAll();
@@ -49,6 +66,21 @@ class PersonController extends Controller
     }
 
     /**
+     * Response with one Person registered on the database
+     *
+     * @ApiDoc(
+     *  section="Person",
+     *  resource=true,
+     *  description="Retrieves a single person",
+     *  output="AppBundle\Entity\Person",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         504="Returned when request is bad",
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *  }
+     * )
      * @Route("/api/people/{id}", name="api-person-show")
      * @Method("GET")
      */

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\Container;
 use AppBundle\Repository\Contract\OrderRepository;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * @Route(service="app.api_order_controller")
@@ -24,6 +25,21 @@ class OrderController extends Controller
     }
 
     /**
+     * Response with all orders registered on the database
+     *
+     * @ApiDoc(
+     *  section="Order",
+     *  resource=true,
+     *  description="Get all Orders",
+     *  output="AppBundle\Entity\Order",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         504="Returned when request is bad",
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *  }
+     * )
      * @Route("/api/orders", name="api-order-index")
      * @Method("GET")
      */
@@ -33,6 +49,7 @@ class OrderController extends Controller
         $response->headers->set('Content-Type', 'text/javascript');
 
         $serializer = $this->container->get('jms_serializer');
+        $orders = [];
 
         try {
             $criteria = $request->query->all();
@@ -49,6 +66,21 @@ class OrderController extends Controller
     }
 
     /**
+     * Response with one Order registered on the database
+     *
+     * @ApiDoc(
+     *  section="Order",
+     *  resource=true,
+     *  description="Retrieves a single order",
+     *  output="AppBundle\Entity\Order",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         504="Returned when request is bad",
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *  }
+     * )
      * @Route("/api/orders/{id}", name="api-order-show")
      * @Method("GET")
      */

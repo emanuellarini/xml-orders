@@ -2,6 +2,11 @@ app_web:
     resource: '@AppBundle/Controller/Web'
     type: annotation
 
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
 app_api:
     resource: '@AppBundle/Controller/Api'
     type: annotation
+
