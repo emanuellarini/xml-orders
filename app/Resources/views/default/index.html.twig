@@ -6,6 +6,26 @@
             <div class="container is-fluid">
                 <h1 class="title">XMLs Import Component</h1>
                 <hr>
+                {% if messages is iterable %}
+                  <article class="message is-{{ type }}">
+                    <div class="message-header">
+                      {% if type == 'success' %}
+                        <p>Success!</p>
+                      {% else %}
+                        <p>Error!</p>
+                      {% endif %}
+                      <button class="delete"></button>
+                    </div>
+                    <div class="message-body">
+                      <ul>
+                        {% for messages in messages %}
+                            <li>{{ messages|e }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </article>
+                {% endif %}
+
                 <form action="{{ path('import-create') }}" method="post" enctype="multipart/form-data">
                    <input type="file" name="people" class="add-fileuploader-people" data-name="People">
                    <input type="file" name="shiporders" class="add-fileuploader-shiporders" data-name="Ship Orders">

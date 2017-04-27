@@ -29,7 +29,7 @@ class ImportController extends Controller
      */
     public function indexAction()
     {
-        $template = $this->container->get('twig')->render('default/index.html.twig');
+        $template = $this->container->get('twig')->render('default/index.html.twig', [ 'messages' => '' ]);
 
         return new Response($template);
     }
@@ -40,8 +40,18 @@ class ImportController extends Controller
      */
     public function createAction(Request $request)
     {
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/json');
+        $errors = [];
+        if (!$request->files->get('people')) {
+            $errors[] = 'File field People is mandatory.';
+        }
+        if (!$request->files->get('shiporders')) {
+            $errors[] = 'File field Orders is mandatory.';
+        }
+
+        if (count($errors)) {
+            $template = $this->container->get('twig')->render('default/index.html.twig', ['messages' => $errors, 'type' => 'danger']);
+            return new Response($template);
+        }
 
         $peopleXml = $request->files->get('people')->getPathname();
         $ordersXml = $request->files->get('shiporders')->getPathname();
@@ -51,20 +61,13 @@ class ImportController extends Controller
         try {
             $peopleData = $this->xmlHandler->getPeople($people);
             $ordersData = $this->xmlHandler->getOrders($orders);
+            $this->xmlHandler->createData($ordersData, $peopleData);
         } catch (\Exception $e) {
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            $response->setContent(json_encode(['error' => 'Failed to parse XML data.']));
-            return $response;
+            $template = $this->container->get('twig')->render('default/index.html.twig', ['messages' => ['Failed to parse and persist XML data.'], 'type' => 'danger']);
+            return new Response($template);
         }
 
-        if (!$this->xmlHandler->createData($ordersData, $peopleData)) {
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            $response->setContent(json_encode(['error' => "Failed to persist XML data."]));
-            return $response;
-        }
-
-        $response->setStatusCode(Response::HTTP_OK);
-        $response->setContent(json_encode(['message' => "Xml imported succesfully!"]));
-        return $response;
+        $template = $this->container->get('twig')->render('default/index.html.twig', ['messages' => ['Xmls imported succesfully.'], 'type' => 'success']);
+        return new Response($template);
     }
 }
