@@ -33,6 +33,7 @@ class LoadPersonData extends AbstractFixture implements OrderedFixtureInterface
 
     protected function createPerson($key) {
         $person = new Person();
+        $person->setId($key);
         $person->setName('Nome - ' . $key);
         return $person;
     }
