@@ -2,12 +2,18 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Import XML{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css">
+        <link rel="stylesheet" href="{{ asset('public/css/jquery.fileuploader.css') }}" />
+        <link rel="stylesheet" href="{{ asset('public/css/jquery.fileuploader.theme.css') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="{{ asset('public/js/jquery.fileuploader.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
