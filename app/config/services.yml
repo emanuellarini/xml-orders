@@ -3,7 +3,78 @@
 parameters:
     #parameter_name: value
 
-services:
+#services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+services:
+    app.doctrine_address_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['AppBundle\Entity\Address']
+        public: false
+
+    app.address_repository:
+        class: AppBundle\Repository\DoctrineAddressRepository
+        arguments: ['@doctrine.orm.default_entity_manager', '@app.doctrine_address_repository']
+
+    app.doctrine_item_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['AppBundle\Entity\Item']
+        public: false
+
+    app.item_repository:
+        class: AppBundle\Repository\DoctrineItemRepository
+        arguments: ['@doctrine.orm.default_entity_manager', '@app.doctrine_item_repository']
+
+    app.doctrine_order_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['AppBundle\Entity\Order']
+        public: false
+
+    app.order_repository:
+        class: AppBundle\Repository\DoctrineOrderRepository
+        arguments: ['@doctrine.orm.default_entity_manager', '@app.doctrine_order_repository']
+
+    app.doctrine_person_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['AppBundle\Entity\Person']
+        public: false
+
+    app.person_repository:
+        class: AppBundle\Repository\DoctrinePersonRepository
+        arguments: ['@doctrine.orm.default_entity_manager', '@app.doctrine_person_repository']
+
+    app.doctrine_phone_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['AppBundle\Entity\Phone']
+        public: false
+
+    app.phone_repository:
+        class: AppBundle\Repository\DoctrinePhoneRepository
+        arguments: ['@doctrine.orm.default_entity_manager', '@app.doctrine_phone_repository']
+
+    app.import_controller:
+        class: AppBundle\Controller\Web\ImportController
+        autowire: true
+
+    app.api_order_controller:
+        class: AppBundle\Controller\Api\OrderController
+        autowire: true
+
+    app.api_person_controller:
+        class: AppBundle\Controller\Api\PersonController
+        autowire: true
+
+    app.xml_handler:
+        class: AppBundle\Service\XmlHandler
+        autowire: true

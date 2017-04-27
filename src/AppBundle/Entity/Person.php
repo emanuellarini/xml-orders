@@ -14,7 +14,6 @@ class Person
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -25,7 +24,7 @@ class Person
 
     /**
      * One Person has Many Phones.
-     * @ORM\OneToMany(targetEntity="Phone", mappedBy="person")
+     * @ORM\OneToMany(targetEntity="Phone", mappedBy="person", cascade={"persist", "remove"})
      */
     private $phones;
 
@@ -34,9 +33,22 @@ class Person
     }
 
     /**
+     * Set id
+     *
+     * @param string $id
+     * @return Person
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,7 +71,7 @@ class Person
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -92,7 +104,7 @@ class Person
     /**
      * Get phones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPhones()
     {

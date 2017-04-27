@@ -14,7 +14,6 @@ class Order
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -27,14 +26,14 @@ class Order
 
     /**
      * One Product has One Address.
-     * @ORM\OneToOne(targetEntity="Address")
+     * @ORM\OneToOne(targetEntity="Address", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     private $address;
 
     /**
      * One Order have Many Items.
-     * @ORM\ManyToMany(targetEntity="Item")
+     * @ORM\ManyToMany(targetEntity="Item", cascade={"persist"})
      * @ORM\JoinTable(name="items_orders",
      *      joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="item_id", referencedColumnName="id", unique=true)}
@@ -47,9 +46,22 @@ class Order
     }
 
     /**
+     * Set id
+     *
+     * @param string $id
+     * @return Order
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -72,7 +84,7 @@ class Order
     /**
      * Get person
      *
-     * @return \AppBundle\Entity\Person 
+     * @return \AppBundle\Entity\Person
      */
     public function getPerson()
     {
@@ -95,7 +107,7 @@ class Order
     /**
      * Get address
      *
-     * @return \AppBundle\Entity\Address 
+     * @return \AppBundle\Entity\Address
      */
     public function getAddress()
     {
@@ -128,7 +140,7 @@ class Order
     /**
      * Get items
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getItems()
     {
